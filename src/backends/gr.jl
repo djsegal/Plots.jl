@@ -760,9 +760,12 @@ function gr_get_ticks_size(ticks, rot)
     return w, h
 end
 
-gr_tick_label(axis,label) = (axis[:formatter] in (:scientific, :auto)) ?
-                                gr_convert_sci_tick_label(label) :
-                                label
+function gr_tick_label(axis,label)
+    if (axis[:formatter] in (:scientific, :auto))
+        return replace(gr_convert_sci_tick_label(label), "×" => "x")
+    end
+    label
+end
 
 function gr_convert_sci_tick_label(label)
     caret_split = split(label,'^')
